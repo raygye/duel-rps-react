@@ -1,0 +1,1 @@
+Frontend for "Duel! Rock-Paper-Scissors" website. Made with React.js.
