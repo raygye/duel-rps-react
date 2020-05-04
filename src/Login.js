@@ -7,7 +7,12 @@ export default class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit(event) {
+        console.log(event.target.checkValidity());
         event.preventDefault();
+        if(!event.target.checkValidity()) {
+            console.log('bad');
+            return;
+        }
         const data = new FormData(event.target);
         fetch('http://localhost:5000/users/add', {
             method: 'POST',
@@ -29,11 +34,11 @@ export default class Login extends Component {
                           <div className="card-body">
                               <label>
                                     Username
-                                  <br/><input type="text" id="username" placeholder="Enter username"/>
+                                  <br/><input type="text" id="pass" name="username" placeholder="Enter username" required/>
                               </label>
                               <br/><label>
                                   Password
-                                  <br/><input type="password" id="password" placeholder="Enter password"/>
+                                  <br/><input type="password" id="logPass" name="password" placeholder="Enter password" required/>
                               </label>
                               <br/><button type="submit" className="btn btn-outline-secondary">Submit</button>
                           </div>
