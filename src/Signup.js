@@ -12,10 +12,13 @@ export default class Signup extends Component{
         this.img = 0;
     }
     handleSubmit(event) {
-        console.log(event.target.checkValidity());
         event.preventDefault();
         if(!event.target.checkValidity()) {
             console.log('bad');
+            return;
+        }
+        else if(this.img === 0) {
+            alert('Please select a character');
             return;
         }
         const data = new FormData(event.target);
