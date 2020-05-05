@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Cookies from 'universal-cookie';
 
 export default class Login extends Component {
     constructor() {
@@ -26,7 +27,11 @@ export default class Login extends Component {
         }).then(
             function(response) {
                 response.text().then(function(data) {
-                    console.log(data);
+                    if (data.includes('User authenticated.')) {
+                        const cookies = new Cookies();
+                        cookies.set('logged', true, {path: '/'});
+                        cookies.set('username', object.username, {path: '/'});
+                    }
                 });
             })
     }
