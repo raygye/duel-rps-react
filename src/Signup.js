@@ -16,7 +16,6 @@ export default class Signup extends Component{
     handleSubmit(event) {
         event.preventDefault();
         if(!event.target.checkValidity()) {
-            console.log('bad');
             return;
         }
         else if(this.img === 0) {
@@ -48,14 +47,17 @@ export default class Signup extends Component{
     sel1(event) {
         event.preventDefault();
         this.setState({selected: 1});
+        console.log(this.state.selected);
     }
     sel2(event) {
         event.preventDefault();
         this.setState({selected: 2});
+        console.log(this.state.selected);
     }
     sel3(event) {
         event.preventDefault();
         this.setState({selected: 3});
+        console.log(this.state.selected);
     }
     render() {
         return (
@@ -77,9 +79,9 @@ export default class Signup extends Component{
                         </label>
                         <label>
                             Select a Character
-                            <br/><input type="image" className="img" name="img1" src={img1} alt="img1" onClick={this.sel1}/>
-                            <input type="image" className="img" name="img2" src={img2} alt="img2" onClick={this.sel2}/>
-                            <input type="image" className="img" name="img3" src={img3} alt="img3" onClick={this.sel3}/>
+                            <br/><input type="image" className={`${this.state.selected!==1 ? "" : "border border-primary"}`} name="img1" src={img1} alt="img1" onClick={this.sel1}/>
+                            <input type="image" className={`${this.state.selected!==2 ? "" : "border border-primary"}`} name="img2" src={img2} alt="img2" onClick={this.sel2}/>
+                            <input type="image" className={`${this.state.selected!==3 ? "" : "border border-primary"}`} name="img3" src={img3} alt="img3" onClick={this.sel3}/>
                         </label>
                         <br/><button type="submit" className="btn btn-outline-secondary">Submit</button>
                     </div>

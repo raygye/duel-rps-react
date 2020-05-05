@@ -10,7 +10,6 @@ export default class Login extends Component {
         console.log(event.target.checkValidity());
         event.preventDefault();
         if(!event.target.checkValidity()) {
-            console.log('bad');
             return;
         }
         const data = new FormData(event.target);
@@ -19,7 +18,7 @@ export default class Login extends Component {
             object[key] = value;
         });
         let dataParsed = JSON.stringify(object);
-        fetch('http://localhost:5000/users/add', {
+        fetch('http://localhost:5000/users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -42,11 +41,11 @@ export default class Login extends Component {
                           <div className="card-body">
                               <label>
                                     Username
-                                  <br/><input type="text" id="pass" name="username" placeholder="Enter username" required/>
+                                  <br/><input type="text" id="pass" name="username" placeholder="Enter username" minLength="5" required/>
                               </label>
                               <br/><label>
                                   Password
-                                  <br/><input type="password" id="logPass" name="password" placeholder="Enter password" required/>
+                                  <br/><input type="password" id="logPass" name="password" placeholder="Enter password" minLength="8" required/>
                               </label>
                               <br/><button type="submit" className="btn btn-outline-secondary">Submit</button>
                           </div>
