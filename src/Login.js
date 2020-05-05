@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './Login.css'
 
 export default class Login extends Component {
     constructor() {
@@ -41,11 +40,11 @@ export default class Login extends Component {
                           <div className="card-body">
                               <label>
                                     Username
-                                  <br/><input type="text" id="pass" name="username" placeholder="Enter username" minLength="5" required/>
+                                  <br/><input type="text" className="form-control" id="pass" name="username" placeholder="Enter username" minLength="5" required/>
                               </label>
                               <br/><label>
                                   Password
-                                  <br/><input type="password" id="logPass" name="password" placeholder="Enter password" minLength="8" required/>
+                                  <br/><input type="password" className="form-control" id="logPass" name="password" placeholder="Enter password" minLength="8" required/>
                               </label>
                               <br/><button type="submit" className="btn btn-outline-secondary">Submit</button>
                           </div>

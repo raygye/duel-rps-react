@@ -47,17 +47,14 @@ export default class Signup extends Component{
     sel1(event) {
         event.preventDefault();
         this.setState({selected: 1});
-        console.log(this.state.selected);
     }
     sel2(event) {
         event.preventDefault();
         this.setState({selected: 2});
-        console.log(this.state.selected);
     }
     sel3(event) {
         event.preventDefault();
         this.setState({selected: 3});
-        console.log(this.state.selected);
     }
     render() {
         return (
@@ -69,13 +66,13 @@ export default class Signup extends Component{
                     <div className="card-body">
                         <label>
                             Username
-                            <br/><input type="text" id="signUser" name="username" placeholder="Enter username" minLength="5" required/>
-                            <br/><small className="text-secondary">Username must be 5+ characters in length</small>
+                            <br/><input type="text" className="form-control" id="signUser" name="username" placeholder="Enter username" minLength="5" required/>
+                            <small className="text-secondary">Username must be 5+ characters in length</small>
                         </label>
                         <br/><label>
                             Password
-                            <br/><input type="password" id="signPass" name="password" placeholder="Enter password" minLength="8" required/>
-                            <br/><small className="text-secondary">Password must be 8+ characters in length</small>
+                            <br/><input type="password" className="form-control" id="signPass" name="password" placeholder="Enter password" minLength="8" required/>
+                            <small className="text-secondary">Password must be 8+ characters in length</small>
                         </label>
                         <label>
                             Select a Character
