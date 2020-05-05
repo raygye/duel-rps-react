@@ -3,13 +3,15 @@ import img1 from'./imgs/img1.png'
 import img2 from'./imgs/img2.png'
 import img3 from'./imgs/img3.png'
 export default class Signup extends Component{
+    state = {
+        selected: 0
+    };
     constructor() {
         super();
         this.handleSubmit = this.handleSubmit.bind(this);
         this.sel1 = this.sel1.bind(this);
-        this.sel2 = this.sel1.bind(this);
-        this.sel3 = this.sel1.bind(this);
-        this.img = 0;
+        this.sel2 = this.sel2.bind(this);
+        this.sel3 = this.sel3.bind(this);
     }
     handleSubmit(event) {
         event.preventDefault();
@@ -26,7 +28,7 @@ export default class Signup extends Component{
         data.forEach(function(value, key){
             object[key] = value;
         });
-        object["img"] = this.img;
+        object["img"] = this.state.selected;
         let dataParsed = JSON.stringify(object);
         fetch('http://localhost:5000/users/add', {
             method: 'POST',
@@ -37,21 +39,23 @@ export default class Signup extends Component{
         }).then(
             function(response) {
                 response.text().then(function(data) {
-                    console.log(data);
+                    if (data.includes('Username already exists.')) {
+                        alert('Username already exists.');
+                    }
                 });
             })
     }
     sel1(event) {
         event.preventDefault();
-        this.img = 1;
+        this.setState({selected: 1});
     }
     sel2(event) {
         event.preventDefault();
-        this.img = 2;
+        this.setState({selected: 2});
     }
     sel3(event) {
         event.preventDefault();
-        this.img = 3;
+        this.setState({selected: 3});
     }
     render() {
         return (
