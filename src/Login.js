@@ -14,9 +14,17 @@ export default class Login extends Component {
             return;
         }
         const data = new FormData(event.target);
+        let object = {};
+        data.forEach(function(value, key){
+            object[key] = value;
+        });
+        let dataParsed = JSON.stringify(object);
         fetch('http://localhost:5000/users/add', {
             method: 'POST',
-            body: data
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: dataParsed
         }).then(
             function(response) {
                 response.text().then(function(data) {
