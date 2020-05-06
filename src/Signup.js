@@ -50,7 +50,7 @@ export default class Signup extends Component{
     }
     sel2(event) {
         event.preventDefault();
-        this.setState({szelected: 2});
+        this.setState({selected: 2});
     }
     sel3(event) {
         event.preventDefault();

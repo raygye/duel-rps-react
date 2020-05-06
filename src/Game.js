@@ -15,7 +15,7 @@ export default class Game extends Component {
     constructor(props) {
         super(props);
         const cookies = new Cookies();
-        this.state = {gameState: "await", img: cookies.get("img"), username: cookies.get("username"), wins: -1, games: -1};
+        this.state = {gameState: "await", img: cookies.get("img"), username: cookies.get("username"), wins: cookies.get("wins"), games: cookies.get("games")};
     }
 
     componentDidMount() {
@@ -24,13 +24,14 @@ export default class Game extends Component {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: {username: this.props.match.params.username}
+            body: JSON.stringify({"username": this.state.username})
         }).then(
             function(response) {
-                response.text().then(function(data) {
+                response.json().then(function (data) {
                     const cookies = new Cookies();
-                    cookies.set("wins", data.wins, {path: '/'});
-                    cookies.set("games", data.games, {path: '/'});
+                    cookies.set('img', data.img, {path: '/'});
+                    cookies.set('wins', data.wins, {path: '/'});
+                    cookies.set('games', data.games, {path: '/'});
                 });
             })
     }
@@ -43,12 +44,15 @@ export default class Game extends Component {
                 </div>
                 <div className="card-group">
                     <div className="card d-flex align-items-center " id="leftCard">
-                        <h1 style={{textAlign: "center"}}>
+                        <h1>
                             {this.props.match.params.username}
                         </h1>
-                        <img src={`${this.state==='1' ? img1 : this.state==='2' ? img2 : img3}`} alt="img" style={{width: '150px'}}/>
+                        <img className="rounded border border-secondary" src={`${this.state.img==='1' ? img1 : this.state.img==='2' ? img2 : img3}`} alt="img" style={{width: '150px'}}/>
+                        <h2>Wins: {this.state.wins}</h2>
+                        <h2>Games Played: {this.state.games}</h2>
                     </div>
-                    <div className="card">
+                    <div className="card d-flex align-items-center " id="rightCard">
+
                     </div>
                 </div>
             </div>

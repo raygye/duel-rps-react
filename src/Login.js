@@ -8,12 +8,12 @@ export default class Login extends Component {
     handleSubmit(event) {
         console.log(event.target.checkValidity());
         event.preventDefault();
-        if(!event.target.checkValidity()) {
+        if (!event.target.checkValidity()) {
             return;
         }
         const data = new FormData(event.target);
         let object = {};
-        data.forEach(function(value, key){
+        data.forEach(function (value, key) {
             object[key] = value;
         });
         let dataParsed = JSON.stringify(object);
@@ -24,23 +24,23 @@ export default class Login extends Component {
             },
             body: dataParsed
         }).then(
-            function(response) {
-                response.text().then(function(data) {
-                    console.log(data);
-                    if (data.includes('User authenticated.')) {
+            function (response) {
+                response.json().then(function (data) {
+                    if (data.authenticated) {
                         const cookies = new Cookies();
                         cookies.set('logged', true, {path: '/'});
                         cookies.set('username', object.username, {path: '/'});
-                        cookies.set('img', data[1], {path: '/'});
+                        cookies.set('img', data.img, {path: '/'});
+                        cookies.set('wins', data.wins, {path: '/'});
+                        cookies.set('games', data.games, {path: '/'});
                         let url = '/' + cookies.get("username");
                         window.location.replace(url);
-                        }
-                    else {
+                    } else {
                         alert(data);
                     }
                 });
-            })
-    };
+            });
+    }
   render() {
       return (
           <div className="card">
