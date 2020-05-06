@@ -14,8 +14,27 @@ import {
 export default class Game extends Component {
     constructor(props) {
         super(props);
-        this.state = {gameState: "await"};
+        const cookies = new Cookies();
+        this.state = {gameState: "await", img: cookies.get("img"), username: cookies.get("username"), wins: -1, games: -1};
     }
+
+    componentDidMount() {
+        fetch('http://localhost:5000/rooms/' + this.state.username, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: {username: this.props.match.params.username}
+        }).then(
+            function(response) {
+                response.text().then(function(data) {
+                    const cookies = new Cookies();
+                    cookies.set("wins", data.wins, {path: '/'});
+                    cookies.set("games", data.games, {path: '/'});
+                });
+            })
+    }
+
     render() {
         return(
             <div className="container">
@@ -23,13 +42,13 @@ export default class Game extends Component {
                     <img src={duel} alt="duel" style={{width: "150px"}}/>
                 </div>
                 <div className="card-group">
-                    <div className="card">
+                    <div className="card d-flex align-items-center " id="leftCard">
                         <h1 style={{textAlign: "center"}}>
                             {this.props.match.params.username}
                         </h1>
+                        <img src={`${this.state==='1' ? img1 : this.state==='2' ? img2 : img3}`} alt="img" style={{width: '150px'}}/>
                     </div>
                     <div className="card">
-
                     </div>
                 </div>
             </div>

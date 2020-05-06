@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Cookies from 'universal-cookie';
-import {Redirect} from 'react-router-dom'
 export default class Login extends Component {
     constructor() {
         super();
@@ -32,6 +31,9 @@ export default class Login extends Component {
                         const cookies = new Cookies();
                         cookies.set('logged', true, {path: '/'});
                         cookies.set('username', object.username, {path: '/'});
+                        cookies.set('img', data[1], {path: '/'});
+                        let url = '/' + cookies.get("username");
+                        window.location.replace(url);
                         }
                     else {
                         alert(data);
@@ -40,11 +42,6 @@ export default class Login extends Component {
             })
     };
   render() {
-      const cookies = new Cookies();
-      if (cookies.get("logged")) {
-          let url = '/' + cookies.get("username");
-          window.location.replace(url);
-      }
       return (
           <div className="card">
                   <form onSubmit={this.handleSubmit}>
