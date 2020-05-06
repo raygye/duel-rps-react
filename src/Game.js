@@ -24,10 +24,9 @@ export default class Game extends Component {
                 </div>
                 <div className="card-group">
                     <div className="card">
-                        {this.props.match.params.username}
-                    </div>
-                    <div className="card w-25" id="middle">
-                        test
+                        <h1 style={{textAlign: "center"}}>
+                            {this.props.match.params.username}
+                        </h1>
                     </div>
                     <div className="card">
 

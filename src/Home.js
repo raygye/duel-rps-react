@@ -7,10 +7,12 @@ export default class Home extends Component {
     constructor() {
         super();
         const cookies = new Cookies();
-        this.state = {logged: cookies.get("logged")};
+        this.state = {logged: cookies.get("logged"), username: cookies.get("username")};
     }
     componentDidMount() {
-        console.log(this.state.logged);
+        if (this.state.logged) {
+            window.location.replace('./' + this.state.username);
+        }
     }
 
     render() {
