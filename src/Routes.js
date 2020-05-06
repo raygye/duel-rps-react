@@ -11,12 +11,8 @@ export default class Routes extends Component{
     render() {
         return(
             <Router>
-                <Route exact path="/" render={() => {
-                    return (<Home/>);
-                }}/>
-                <Route path="/:username" render={() => {
-                    return(<Game/>);
-                }}/>
+                <Route exact path="/" component={Home}/>
+                <Route path="/:username" component={Game}/>
             </Router>
         )
     }

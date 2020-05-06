@@ -1,0 +1,6 @@
+.card-group [class*='col-'] {
+    float:none;
+}
+#middle {
+    width: 10px;
+}
