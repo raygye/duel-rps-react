@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import Cookies from 'universal-cookie';
+import socketIOClient from 'socket.io-client';
 import img1 from'./imgs/img1.png'
 import img2 from'./imgs/img2.png'
 import img3 from'./imgs/img3.png'
 import duel from './imgs/duel.png';
+const ENDPOINT = "http://localhost:5000/";
 export default class Waiting extends Component {
     constructor(props) {
         super(props);
         const cookies = new Cookies();
-        this.state = {img: cookies.get("img"), username: cookies.get("username"), wins: cookies.get("wins"), games: cookies.get("games")};
+        this.state = {img: cookies.get("img"), username: window.location.pathname.substring(1), wins: cookies.get("wins"), games: cookies.get("games")};
     }
 
     componentDidMount() {
@@ -26,7 +28,11 @@ export default class Waiting extends Component {
                     cookies.set('wins', data.wins, {path: '/'});
                     cookies.set('games', data.games, {path: '/'});
                 });
-            })
+            });
+        const socket = socketIOClient(ENDPOINT);
+        socket.on("connection", () => {
+           socket.emit('room', this.state.username);
+        });
     }
 
     render() {
@@ -38,7 +44,7 @@ export default class Waiting extends Component {
                 <div className="card-group">
                     <div className="card d-flex align-items-center" id="leftCard">
                         <h1>
-                            {this.props.username}
+                            {this.state.username}
                         </h1>
                         <img className="rounded border border-secondary" src={`${this.state.img==='1' ? img1 : this.state.img==='2' ? img2 : img3}`} alt="img" style={{width: '150px'}}/>
                         <br/><br/><h2>Wins: {this.state.wins}</h2>
