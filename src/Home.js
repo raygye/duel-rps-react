@@ -10,7 +10,10 @@ export default class Home extends Component {
         this.state = {logged: cookies.get("logged"), username: cookies.get("username")};
     }
     componentDidMount() {
-        if (this.state.logged) {
+        if (this.state.username === "") {
+            this.setState({logged: false});
+        }
+        else if (this.state.logged) {
             window.location.replace('./' + this.state.username);
         }
     }

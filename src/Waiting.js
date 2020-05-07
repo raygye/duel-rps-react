@@ -18,6 +18,7 @@ export default class Waiting extends Component {
             img2: 0
         };
         this.readyButton = this.readyButton.bind(this);
+        this.logOut = this.logOut.bind(this);
     }
     readyButton() {
         const cookies = new Cookies();
@@ -25,6 +26,15 @@ export default class Waiting extends Component {
             const socket = socketIOClient(ENDPOINT);
             socket.emit('gametime', this.state.username);
         }
+    }
+    logOut() {
+        const cookies = new Cookies();
+        cookies.remove("games");
+        cookies.remove("wins");
+        cookies.remove("img");
+        cookies.set("username", "");
+        cookies.set("logged", false);
+        window.location.replace('./');
     }
     componentDidMount() {
         fetch('http://localhost:5000/rooms/' + this.state.username, {
@@ -113,8 +123,9 @@ export default class Waiting extends Component {
     render() {
         return(
             <div className="container">
-                <div>
+                <div className="p-3 w-100">
                     <img src={duel} alt="duel" style={{width: "150px"}}/>
+                    <button type="button" className="btn btn-outline-dark float-right" onClick={this.logOut}>Log out</button>
                 </div>
                 <div className="card-group">
                     <div className="card d-flex align-items-center" id="leftCard">
