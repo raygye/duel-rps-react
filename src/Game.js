@@ -8,6 +8,7 @@ export default class Game extends Component {
         super(props);
         const cookies = new Cookies();
         this.gameTime = this.gameTime.bind(this);
+        this.waitTime = this.waitTime.bind(this);
         this.state = {gameState: "waiting", img: cookies.get("img"), username: cookies.get("username"), wins: cookies.get("wins"), games: cookies.get("games")};
     }
     gameTime() {
@@ -15,12 +16,17 @@ export default class Game extends Component {
             gameState: 'game'
         })
     }
+    waitTime() {
+        this.setState({
+            gameState: 'waiting'
+        })
+    }
     render() {
         let gameState = this.state.gameState ;
         if (gameState === "waiting") {
             return (
                 <div className="container">
-                  <Waiting username={this.props.match.params.username} gameTime = {this.gameTime}/>
+                  <Waiting username={this.props.match.params.username} gameTime={this.gameTime} waitTime={this.waitTime}/>
                 </div>
             )
         }

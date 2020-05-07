@@ -1,18 +1,31 @@
 import React, {Component} from 'react';
 import Cookies from 'universal-cookie';
 import socketIOClient from 'socket.io-client';
-import img1 from'./imgs/img1.png'
-import img2 from'./imgs/img2.png'
-import img3 from'./imgs/img3.png'
 import duel from './imgs/duel.png';
+import SecondPlayer from "./SecondPlayer";
 const ENDPOINT = "http://localhost:5000/";
 export default class Waiting extends Component {
     constructor(props) {
         super(props);
-        const cookies = new Cookies();
-        this.state = {img: cookies.get("img"), username: window.location.pathname.substring(1), wins: cookies.get("wins"), games: cookies.get("games")};
+        this.state = {img: 0,
+            username: window.location.pathname.substring(1),
+            wins: -1,
+            games: -1,
+            secondPlayer: false,
+            user2: "",
+            wins2: -1,
+            games2: -1,
+            img2: 0
+        };
+        this.readyButton = this.readyButton.bind(this);
     }
-
+    readyButton() {
+        const cookies = new Cookies();
+        if (this.state.username === cookies.get("username") && this.state.secondPlayer) {
+            const socket = socketIOClient(ENDPOINT);
+            socket.emit('gametime', this.state.username);
+        }
+    }
     componentDidMount() {
         fetch('http://localhost:5000/rooms/' + this.state.username, {
             method: 'POST',
@@ -21,17 +34,79 @@ export default class Waiting extends Component {
             },
             body: JSON.stringify({"username": this.state.username})
         }).then(
-            function(response) {
-                response.json().then(function (data) {
-                    const cookies = new Cookies();
-                    cookies.set('img', data.img, {path: '/'});
-                    cookies.set('wins', data.wins, {path: '/'});
-                    cookies.set('games', data.games, {path: '/'});
+            (response) => {
+                response.json().then((data) => {
+                    this.setState({img: data.img, wins: data.wins, games: data.games});
                 });
             });
         const socket = socketIOClient(ENDPOINT);
-        socket.on("connection", () => {
-           socket.emit('room', this.state.username);
+        socket.on("connect", () => {
+            const cookies = new Cookies();
+            socket.emit('room', this.state.username);
+            if (cookies.get("username") !== this.state.username) {
+                socket.emit('user', {
+                    username: cookies.get("username"),
+                    img: cookies.get("img"),
+                    wins: cookies.get("wins"),
+                    games: cookies.get("games")
+                });
+            }
+        });
+        socket.on("waiting", () => {
+            this.props.waitTime();
+            this.setState({
+                secondPlayer: false
+            });
+        });
+        socket.on("ready", () => {
+            this.setState({
+                secondPlayer: true
+            });
+        });
+        socket.on("start", () => {
+            this.props.gameTime();
+        });
+        socket.on("Full", () => {
+            alert('The game room is full (max players: 2)');
+        });
+        socket.on("SecondPlayer", (data) => {
+            this.setState({
+                user2: data.username,
+                img2: data.img,
+                wins2: data.wins,
+                games2: data.games,
+                present: true
+            })
+        });
+        socket.on('results', (data) => {
+            const cookies = new Cookies();
+            let win = false;
+            if (data.tie) {
+                window.location.replace('./Tie');
+            }
+            else if (data.winner === cookies.get("username")){
+                window.location.replace('./Victory');
+                win = true;
+            }
+            else {
+                window.location.replace('./Defeat');
+            }
+            fetch('http://localhost:5000/users/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "username": cookies.get("username"),
+                    "win": win
+                })
+            }).then(
+                (response) => {
+                    response.json().then((data) => {
+                        cookies.set("wins", parseInt(cookies.get("wins"), 10)+1);
+                        cookies.set("games", parseInt(cookies.get("games"), 10)+1);
+                    });
+            });
         });
     }
 
@@ -46,20 +121,13 @@ export default class Waiting extends Component {
                         <h1>
                             {this.state.username}
                         </h1>
-                        <img className="rounded border border-secondary" src={`${this.state.img==='1' ? img1 : this.state.img==='2' ? img2 : img3}`} alt="img" style={{width: '150px'}}/>
+                        <img className="rounded border border-secondary" src={require(`./imgs/img${this.state.img}.png`)} alt="img" style={{width: '150px'}}/>
                         <br/><br/><h2>Wins: {this.state.wins}</h2>
                         <h2>Games Played: {this.state.games}</h2>
-                        <br/><button type="button" className="btn btn-outline-dark" onClick={this.props.gameTime}>READY</button>
+                        <br/><button type="button" className="btn btn-outline-dark" onClick={this.readyButton}>READY</button>
                         <br/>
                     </div>
-                    <div className="card d-flex justify-content-center" id="rightCard">
-                        <div className="mx-auto">
-                            <h5>Waiting for opponent...</h5>
-                        </div>
-                        <div className="mx-auto spinner-border">
-                            <span className="sr-only">Loading...</span>
-                        </div>
-                    </div>
+                    <SecondPlayer present={this.state.secondPlayer} img={this.state.img2} wins={this.state.wins2} games={this.state.games2} username={this.state.user2}/>
                 </div>
             </div>
         )

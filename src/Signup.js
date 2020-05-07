@@ -4,7 +4,7 @@ import img2 from'./imgs/img2.png'
 import img3 from'./imgs/img3.png'
 export default class Signup extends Component{
     state = {
-        selected: 0
+        selected: 0,
     };
     constructor() {
         super();
@@ -36,10 +36,13 @@ export default class Signup extends Component{
             },
             body: dataParsed
         }).then(
-            function(response) {
-                response.text().then(function(data) {
+            (response) => {
+                response.text().then((data) => {
                     if (data.includes('Username already exists.')) {
                         alert('Username already exists.');
+                    }
+                    else {
+                        alert('Success!');
                     }
                 });
             })
