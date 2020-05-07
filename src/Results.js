@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-import Cookies from 'universal-cookie';
-import socketIOClient from 'socket.io-client';
-import tie from "./imgs/tie.png";
-const ENDPOINT = "http://localhost:5000/";
 export default class Results extends Component {
     constructor(props) {
         super(props);
