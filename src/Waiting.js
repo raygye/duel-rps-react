@@ -97,11 +97,13 @@ class Waiting extends Component {
             }
             else if (data.winner === cookies.get("username")){
                 this.props.history.push('./Victory');
+                cookies.set("wins", parseInt(cookies.get("wins"), 10)+1);
                 win = true;
             }
             else {
                 this.props.history.push('./Defeat');
             }
+            cookies.set("games", parseInt(cookies.get("games"), 10)+1);
             fetch(cookies.get("endpoint") + 'users/update', {
                 method: 'POST',
                 headers: {
@@ -111,12 +113,6 @@ class Waiting extends Component {
                     "username": cookies.get("username"),
                     "win": win
                 })
-            }).then(
-                (response) => {
-                    response.json().then((data) => {
-                        cookies.set("wins", parseInt(cookies.get("wins"), 10)+1);
-                        cookies.set("games", parseInt(cookies.get("games"), 10)+1);
-                    });
             });
         });
     }
