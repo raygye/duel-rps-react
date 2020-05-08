@@ -31,7 +31,7 @@ export default class Signup extends Component{
         });
         object["img"] = this.state.selected;
         let dataParsed = JSON.stringify(object);
-        fetch(cookies.get("endpoint") + '/users/add', {
+        fetch(cookies.get("endpoint") + 'users/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
