@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Cookies from 'universal-cookie';
 import img1 from'./imgs/img1.png'
 import img2 from'./imgs/img2.png'
 import img3 from'./imgs/img3.png'
@@ -14,6 +15,7 @@ export default class Signup extends Component{
         this.sel3 = this.sel3.bind(this);
     }
     handleSubmit(event) {
+        const cookies = new Cookies();
         event.preventDefault();
         if(!event.target.checkValidity()) {
             return;
@@ -29,7 +31,7 @@ export default class Signup extends Component{
         });
         object["img"] = this.state.selected;
         let dataParsed = JSON.stringify(object);
-        fetch('http://localhost:5000/users/add', {
+        fetch(cookies.get("endpoint") + '/users/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

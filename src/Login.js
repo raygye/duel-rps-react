@@ -6,6 +6,7 @@ export default class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     handleSubmit(event) {
+        const cookies = new Cookies();
         console.log(event.target.checkValidity());
         event.preventDefault();
         if (!event.target.checkValidity()) {
@@ -17,7 +18,7 @@ export default class Login extends Component {
             object[key] = value;
         });
         let dataParsed = JSON.stringify(object);
-        fetch('http://localhost:5000/users/login', {
+        fetch(cookies.get("endpoint") + '/users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

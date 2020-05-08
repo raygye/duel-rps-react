@@ -3,7 +3,6 @@ import Cookies from 'universal-cookie';
 import socketIOClient from 'socket.io-client';
 import duel from './imgs/duel.png';
 import SecondPlayer from "./SecondPlayer";
-const ENDPOINT = "http://localhost:5000/";
 export default class Waiting extends Component {
     constructor(props) {
         super(props);
@@ -23,7 +22,7 @@ export default class Waiting extends Component {
     readyButton() {
         const cookies = new Cookies();
         if (this.state.username === cookies.get("username") && this.state.secondPlayer) {
-            const socket = socketIOClient(ENDPOINT);
+            const socket = socketIOClient(cookies.get("endpoint"));
             socket.emit('gametime', this.state.username);
         }
     }
@@ -50,7 +49,7 @@ export default class Waiting extends Component {
                     this.setState({img: data.img, wins: data.wins, games: data.games});
                 });
             });
-        const socket = socketIOClient(ENDPOINT);
+        const socket = socketIOClient(cookies.get("endpoint"));
         socket.on("connect", () => {
             const cookies = new Cookies();
             socket.emit('room', this.state.username);
