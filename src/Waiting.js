@@ -78,7 +78,7 @@ class Waiting extends Component {
             this.props.gameTime();
         });
         socket.on("Full", () => {
-            alert('The game room is full (max players: 2)');
+            //alert('The game room is full (max players: 2)');
         });
         socket.on("SecondPlayer", (data) => {
             this.setState({
