@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Cookies from 'universal-cookie';
-export default class Login extends Component {
+import {withRouter} from 'react-router-dom';
+
+class Login extends Component {
     constructor() {
         super();
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,8 +27,8 @@ export default class Login extends Component {
             },
             body: dataParsed
         }).then(
-            function (response) {
-                response.json().then(function (data) {
+            (response) => {
+                response.json().then((data) => {
                     if (data.authenticated) {
                         const cookies = new Cookies();
                         cookies.set('logged', true, {path: '/'});
@@ -35,7 +37,7 @@ export default class Login extends Component {
                         cookies.set('wins', data.wins, {path: '/'});
                         cookies.set('games', data.games, {path: '/'});
                         let url = '/' + cookies.get("username");
-                        window.location.replace(url);
+                        this.props.history.push(url);
                     } else {
                         alert(data);
                     }
@@ -65,3 +67,4 @@ export default class Login extends Component {
       );
   }
 }
+export default withRouter(Login);

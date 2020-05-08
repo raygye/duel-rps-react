@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-export default class Results extends Component {
+import {withRouter} from 'react-router-dom';
+class Results extends Component {
     constructor(props) {
         super(props);
         this.return = this.return.bind(this);
     }
     return() {
-        window.location.replace('./');
+        this.props.history.push('./');
     }
     render() {
         return (
@@ -19,3 +20,4 @@ export default class Results extends Component {
         )
     }
 }
+export default withRouter(Results);

@@ -3,7 +3,8 @@ import Cookies from 'universal-cookie';
 import socketIOClient from 'socket.io-client';
 import duel from './imgs/duel.png';
 import SecondPlayer from "./SecondPlayer";
-export default class Waiting extends Component {
+import {withRouter} from 'react-router-dom';
+class Waiting extends Component {
     constructor(props) {
         super(props);
         this.state = {img: 0,
@@ -33,7 +34,7 @@ export default class Waiting extends Component {
         cookies.remove("img");
         cookies.set("username", "");
         cookies.set("logged", false);
-        window.location.replace('./');
+        this.props.history.push('./');
     }
     componentDidMount() {
         const cookies = new Cookies();
@@ -92,14 +93,14 @@ export default class Waiting extends Component {
             const cookies = new Cookies();
             let win = false;
             if (data.tie) {
-                window.location.replace('./Tie');
+                this.props.history.push('./Tie');
             }
             else if (data.winner === cookies.get("username")){
-                window.location.replace('./Victory');
+                this.props.history.push('./Victory');
                 win = true;
             }
             else {
-                window.location.replace('./Defeat');
+                this.props.history.push('./Defeat');
             }
             fetch(cookies.get("endpoint") + 'users/update', {
                 method: 'POST',
@@ -144,3 +145,4 @@ export default class Waiting extends Component {
         )
     }
 }
+export default withRouter(Waiting);

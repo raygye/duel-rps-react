@@ -11,13 +11,15 @@ export default class Home extends Component {
     }
     componentDidMount() {
         const cookies = new Cookies();
-        let endpoint = prompt("Please enter the ngrok endpoint: ", "");
-        cookies.set("endpoint", endpoint);
+        if (cookies.get("endpoint") === undefined) {
+            let endpoint = prompt("Please enter the ngrok endpoint: ", "");
+            cookies.set("endpoint", endpoint);
+        }
         if (this.state.username === "") {
             this.setState({logged: false});
         }
         else if (this.state.logged) {
-            window.location.replace('./' + this.state.username);
+            this.props.history.push('./' + this.state.username);
         }
     }
 
