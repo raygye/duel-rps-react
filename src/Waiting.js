@@ -37,7 +37,8 @@ export default class Waiting extends Component {
         window.location.replace('./');
     }
     componentDidMount() {
-        fetch('http://localhost:5000/rooms/' + this.state.username, {
+        const cookies = new Cookies();
+        fetch(cookies.get("endpoint") + '/rooms/' + this.state.username, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -101,7 +102,7 @@ export default class Waiting extends Component {
             else {
                 window.location.replace('./Defeat');
             }
-            fetch('http://localhost:5000/users/update', {
+            fetch(cookies.get("endpoint") + '/users/update', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

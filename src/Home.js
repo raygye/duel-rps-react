@@ -10,6 +10,9 @@ export default class Home extends Component {
         this.state = {logged: cookies.get("logged"), username: cookies.get("username")};
     }
     componentDidMount() {
+        const cookies = new Cookies();
+        let endpoint = prompt("Please enter the ngrok endpoint: ", "");
+        cookies.set("endpoint", endpoint);
         if (this.state.username === "") {
             this.setState({logged: false});
         }

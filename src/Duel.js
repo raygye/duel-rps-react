@@ -5,7 +5,6 @@ import img2 from "./imgs/paper.png";
 import img3 from "./imgs/scissors.png";
 import './Duel.css'
 import socketIOClient from "socket.io-client";
-const ENDPOINT = "http://localhost:5000/";
 
 export default class Game extends Component {
     state = {
@@ -32,10 +31,10 @@ export default class Game extends Component {
         this.setState({selected: 3});
     }
     lock(event) {
+        const cookies = new Cookies();
         this.refs.btn.setAttribute("disabled", "disabled");
         event.preventDefault();
-        const socket = socketIOClient(ENDPOINT);
-        const cookies = new Cookies();
+        const socket = socketIOClient(cookies.get("endpoint"));
         socket.emit('lock', {
             room: window.location.pathname.substring(1),
             username: cookies.get("username"),
