@@ -18,7 +18,7 @@ export default class Login extends Component {
             object[key] = value;
         });
         let dataParsed = JSON.stringify(object);
-        fetch(cookies.get("endpoint") + '/users/login', {
+        fetch(cookies.get("endpoint") + 'users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
