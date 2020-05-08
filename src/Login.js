@@ -9,7 +9,6 @@ class Login extends Component {
     }
     handleSubmit(event) {
         const cookies = new Cookies();
-        console.log(event.target.checkValidity());
         event.preventDefault();
         if (!event.target.checkValidity()) {
             return;
