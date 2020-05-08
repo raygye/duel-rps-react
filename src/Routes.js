@@ -5,11 +5,10 @@ import Duel from './Duel';
 import Results from './Results';
 import {
     BrowserRouter as Router,
-    withRouter,
     Switch,
     Route
 } from "react-router-dom";
-class Routes extends Component{
+export default class Routes extends Component{
     render() {
         return(
             <Router>
@@ -25,4 +24,3 @@ class Routes extends Component{
         )
     }
 }
-export default withRouter(Routes);
