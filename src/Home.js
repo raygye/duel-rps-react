@@ -11,8 +11,8 @@ export default class Home extends Component {
     }
     componentDidMount() {
         const cookies = new Cookies();
-        if (cookies.get("endpoint") === undefined || cookies.get("endpoint") === null) {
-            let endpoint = prompt("Please enter the ngrok endpoint: ", "");
+        if (cookies.get("endpoint") === undefined || cookies.get("endpoint") === 'null') {
+            let endpoint = prompt("Please contact gary.ye@uwaterloo.ca for a demo. If demoing, please enter the ngrok endpoint: ", "");
             cookies.set("endpoint", endpoint);
         }
         if (this.state.username === "") {
