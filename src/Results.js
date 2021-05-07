@@ -7,6 +7,7 @@ class Results extends Component {
     }
     return() {
         this.props.history.push('./');
+        window.location.reload();
     }
     render() {
         return (
